@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using RAD.AddressBook.HelpClasses;
 using RAD.AddressBook.Security;
 
 namespace RAD.AddressBook.ViewModels
@@ -14,13 +15,16 @@ namespace RAD.AddressBook.ViewModels
         private readonly EnvironmentSettings _settings;
         private readonly AES _encryptor;
         private WindowManager _windowManager;
+        private AddressBookManager _addressBookManager;
 
 
         public AddressBookViewModel(
             EnvironmentSettings settings,
             EventAggregator eventAggregator,
             AES encryptor,
-            WindowManager windowManager
+            WindowManager windowManager,
+            AddressBookManager addressBookManager
+
             )
             {
                 _settings = settings;
@@ -28,6 +32,7 @@ namespace RAD.AddressBook.ViewModels
                 _encryptor = encryptor;
                _encryptor.SetPasword(settings.Password);
                 _windowManager = windowManager;
+                _addressBookManager = addressBookManager;
             }
 
         public BindableCollection<Person> People { get; set; } = new BindableCollection<Person>();
@@ -43,132 +48,100 @@ namespace RAD.AddressBook.ViewModels
         {
             using (var context = new DatabaseEntities())
             {
-                var addresses = context
-                    .AddressBook
-                    .Where(a => a.Owner == _settings.UserName)
-                    .ToList();
+                IEnumerable<Person> people= _addressBookManager.GetAllPeople();
 
+               
                 People.Clear();
-                foreach (var address in addresses)
+                foreach (var person in people)
                 {
-                    People.Add(new Person
-                        {
-                             Id= address.Id,
-                            Name =_encryptor.Decrypt(address.Name),
-                            Surname = _encryptor.Decrypt(address.Surname),
-                            Address = _encryptor.Decrypt(address.Address),
-                            Phone = _encryptor.Decrypt(address.Phone),
-                            Email = _encryptor.Decrypt(address.Email)
-                          }
-                    );
+                    People.Add(person                    );
                 }
 
             }
         }
 
-        private Person _person = new Person();
-        public Person Person
+
+        private string _name = "";
+        public string Name
         {
-            get { return _person; }
+            get { return _name; }
             set
             {
-                _person = value;
-                NotifyOfPropertyChange(() => Person);
+                _name = value;
+                NotifyOfPropertyChange(() => Name);
             }
         }
 
-    //private string _person="";
-    //public string Person
-    //{
-    //    get { return _person; }
-    //    set
-    //    {
-    //        _person = value;
-    //        NotifyOfPropertyChange(() => Person);
-    //    }
-    //}
-
-    //private string _surname = "";
-    //public string Surname
-    //{
-    //    get { return _surname; }
-    //    set
-    //    {
-    //        _surname = value;
-    //        NotifyOfPropertyChange(() => Surname);
-    //    }
-    //}
-
-    //private string _address = "";
-    //public string Address
-    //{
-    //    get { return _address; }
-    //    set
-    //    {
-    //        _address = value;
-    //        NotifyOfPropertyChange(() => Address);
-    //    }
-    //}
-
-    //private string _phone = "";
-    //public string Phone
-    //{
-    //    get { return _phone; }
-    //    set
-    //    {
-    //        _phone = value;
-    //        NotifyOfPropertyChange(() => Phone);
-    //    }
-    //}
-
-    //private string _email = "";
-    //public string Email
-    //{
-    //    get { return _email; }
-    //    set
-    //    {
-    //        _email = value;
-    //        NotifyOfPropertyChange(() => Email);
-    //    }
-    //}
-
-    public void Add()
+        private string _surname = "";
+        public string Surname
         {
-            using (var context = new DatabaseEntities())
+            get { return _surname; }
+            set
             {
-                var addressBook = new AddressBook();
-                addressBook.Owner = _settings.UserName;
-                addressBook.Name = _encryptor.Encrypt(Person.Name);
-                addressBook.Surname = _encryptor.Encrypt(Person.Surname);
-                addressBook.Address = _encryptor.Encrypt(Person.Address);
-                addressBook.Phone = _encryptor.Encrypt(Person.Phone);
-                addressBook.Email = _encryptor.Encrypt(Person.Email);
-
-
-                context.AddressBook.Add(addressBook);
-                context.SaveChanges();
+                _surname = value;
+                NotifyOfPropertyChange(() => Surname);
             }
+        }
+
+        private string _address = "";
+        public string Address
+        {
+            get { return _address; }
+            set
+            {
+                _address = value;
+                NotifyOfPropertyChange(() => Address);
+            }
+        }
+
+        private string _phone = "";
+        public string Phone
+        {
+            get { return _phone; }
+            set
+            {
+                _phone = value;
+                NotifyOfPropertyChange(() => Phone);
+            }
+        }
+
+        private string _email = "";
+       
+
+        public string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value;
+                NotifyOfPropertyChange(() => Email);
+            }
+        }
+
+        public void Add()
+        {
+            _addressBookManager.AddToDatabase( new Person
+                {
+                    Name = Name,
+                    Surname = Surname,
+                    Address = Address,
+                    Phone = Phone,
+                    Email = Email
+                });
 
             UpdatePeople();
         }
+
+       
 
         public void Delete(Person person)
         {
-            using (var context = new DatabaseEntities())
-            {
-                var toBeDeleted=context
-                    .AddressBook
-                    .Single(a => a.Id == person.Id);
-
-                context
-                    .AddressBook
-                    .Remove(toBeDeleted);
-
-                context.SaveChanges();
-            }
+            _addressBookManager.DeleteFromDatabase(person);
 
             UpdatePeople();
         }
+
+
 
         public void Edit(Person person)
         {
@@ -176,8 +149,9 @@ namespace RAD.AddressBook.ViewModels
             _windowManager.ShowWindow(model);
             if (model.NewPerson != null)
             {
-                Delete(person);
-               // Add(model.NewPerson);
+             //   DeleteFromDatabase(person);
+             //  AddToDatabase(model.NewPerson);
+                UpdatePeople();
             }
 
             //using (var context = new DatabaseEntities())

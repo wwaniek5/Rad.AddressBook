@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="EnvironmentSettings.cs" />
     <Compile Include="Events\GoToNextViewEvent.cs" />
+    <Compile Include="HelpClasses\AddressBookManager.cs" />
     <Compile Include="Security\AES.cs" />
     <Compile Include="Security\Bcrypt.cs" />
     <Compile Include="Security\CryptographicAlgorithm.cs" />
