@@ -72,6 +72,7 @@ namespace RAD.AddressBook.HelpClasses
                 var addresses = context
                     .AddressBook
                     .Where(a => a.Owner == _settings.UserName)
+                    .Where(a=>a.Owner != null)
                     .ToList();
 
                 return addresses.Select(address => new Person

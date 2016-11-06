@@ -1,49 +1,53 @@
-﻿<UserControl x:Class="RAD.AddressBook.Views.EditView"
+﻿<controls:MetroWindow x:Class="RAD.AddressBook.Views.EditView"
           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
-             mc:Ignorable="d">
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"    
+             Width="600"
+             Height="200"
+             Title="Edit"
+             BorderBrush="{DynamicResource AccentColorBrush}"
+             BorderThickness="1">
 
 
 
 
-        <Grid Grid.Row="1" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0">Imię</Label>
-            <TextBox  Grid.Row="1" Grid.Column="0" Name="Name" ></TextBox>
+    <Grid Grid.Row="1" Grid.Column="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0">Imię</Label>
+        <TextBox  Grid.Row="1" Grid.Column="0" Name="Name" ></TextBox>
 
-            <Label Grid.Row="0" Grid.Column="1">Nazwisko</Label>
-            <TextBox  Grid.Row="1" Grid.Column="1" Name="Surname" ></TextBox>
+        <Label Grid.Row="0" Grid.Column="1">Nazwisko</Label>
+        <TextBox  Grid.Row="1" Grid.Column="1" Name="Surname" ></TextBox>
 
-            <Label Grid.Row="0" Grid.Column="2">Adres</Label>
-            <TextBox  Grid.Row="1" Grid.Column="2" Name="Address" ></TextBox>
+        <Label Grid.Row="0" Grid.Column="2">Adres</Label>
+        <TextBox  Grid.Row="1" Grid.Column="2" Name="Address" ></TextBox>
 
-            <Label Grid.Row="0" Grid.Column="3">Telefon</Label>
-            <TextBox  Grid.Row="1" Grid.Column="3" Name="Phone" ></TextBox>
+        <Label Grid.Row="0" Grid.Column="3">Telefon</Label>
+        <TextBox  Grid.Row="1" Grid.Column="3" Name="Phone" ></TextBox>
 
-            <Label Grid.Row="0" Grid.Column="4">Email</Label>
-            <TextBox  Grid.Row="1" Grid.Column="4" Name="Email" ></TextBox>
+        <Label Grid.Row="0" Grid.Column="4">Email</Label>
+        <TextBox  Grid.Row="1" Grid.Column="4" Name="Email" ></TextBox>
 
-            <Button Grid.Row="1" Grid.Column="5"
+        <Button Grid.Row="1" Grid.Column="5"
             IsDefault="true" 
             FontSize="18"
                 cal:Message.Attach="[Event Click]=[Action Confirm()];">
-                Zatwierdź
-            </Button>
-        </Grid>
-
-
-</UserControl>
+            Zatwierdź
+        </Button>
+    </Grid>
+</controls:MetroWindow>

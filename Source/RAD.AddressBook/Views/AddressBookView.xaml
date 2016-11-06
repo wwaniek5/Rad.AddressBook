@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d">
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -14,7 +14,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid x:Name="LayoutRoot" Grid.Row="0" Grid.Column="0"   ItemsSource="{Binding Path=People}"  >
+        <DataGrid
+            x:Name="LayoutRoot" 
+            IsReadOnly="True" 
+            CanUserAddRows="false"  
+            Grid.Row="0" Grid.Column="0"  
+            ItemsSource="{Binding Path=People}"  >
 
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
