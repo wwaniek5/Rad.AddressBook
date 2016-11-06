@@ -1,35 +1,36 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using RAD.AddressBook.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Caliburn.Micro;
-using RAD.AddressBook.Events;
 using RAD.AddressBook.Security;
 
 namespace RAD.AddressBook.ViewModels
 {
-    public class LoginViewModel : Screen
+    public class RegisterViewModel : Screen
     {
         private readonly EventAggregator _eventAggregator;
         private readonly EnvironmentSettings _settings;
-        private readonly SetupViewModelsFactory _setupViewModelsFactory;
+        private SetupViewModelsFactory _setupViewModelsFactory;
 
-        public LoginViewModel(
+
+
+        public RegisterViewModel(
             SetupViewModelsFactory setupViewModelsFactory,
             EnvironmentSettings settings,
             EventAggregator eventAggregator,
-            ICryptographicAlgorithm cryptographicAlgorithm
+            UserFactory userFactory
             )
         {
             _settings = settings;
             _eventAggregator = eventAggregator;
             _setupViewModelsFactory = setupViewModelsFactory;
-            _cryptographicAlgorithm = cryptographicAlgorithm;
+            _userFactory = userFactory;
+
         }
-
-
 
         private string _userName;
         public string UserName
@@ -44,7 +45,7 @@ namespace RAD.AddressBook.ViewModels
         }
 
         private string _password;
-        private ICryptographicAlgorithm _cryptographicAlgorithm;
+        private UserFactory _userFactory;
 
         public string Password
         {
@@ -58,31 +59,28 @@ namespace RAD.AddressBook.ViewModels
         }
 
 
-        public void Login()
+
+
+
+        public void Ok()
         {
-           
-            using (var context = new DatabaseEntities())
+            try
             {
-               var user =context.Users.FirstOrDefault(u=>u.UserName==UserName);
-                if (user == null || _cryptographicAlgorithm.IsPasswordCorrect(Password, user)==false)
-                {
-                    MessageBox.Show("Błąd");
-                    return;
-                }
+                _userFactory.Create(UserName, Password);
             }
+            catch (DuplikateUserException e)
+            {
+                MessageBox.Show("Login w użyciu");
+                return;
+            }
+      
 
-
-            _settings.Password = Password;
             _settings.UserName = UserName;
-
-
-
+            _settings.Password = Password;
             _eventAggregator.PublishOnCurrentThread(new GoToNextViewEvent(_setupViewModelsFactory.CreateAddressBookViewModel(), UserName));
         }
 
-        public void Register()
-        {
-            _eventAggregator.PublishOnCurrentThread(new GoToNextViewEvent(_setupViewModelsFactory.CreateRegisterViewModel(), ""));
-        }
+
     }
 }
+

@@ -16,15 +16,13 @@ using System.Windows.Shapes;
 namespace RAD.AddressBook.Views
 {
     /// <summary>
-    /// Interaction logic for AddressBookView.xaml
+    /// Interaction logic for EditView.xaml
     /// </summary>
-    public partial class AddressBookView : UserControl
+    public partial class EditView : UserControl
     {
-        public AddressBookView()
+        public EditView()
         {
             InitializeComponent();
-            Application.Current.MainWindow.Height = 700;
-            Application.Current.MainWindow.Width = 1000;
         }
     }
 }

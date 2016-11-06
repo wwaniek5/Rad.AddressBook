@@ -8,8 +8,8 @@ namespace RAD.AddressBook
 {
     public class EnvironmentSettings
     {
-        public string ConnectionString { get; internal set; }
+        public string UserName { get; internal set; }
         public bool UserUsesTheirOwnString { get; internal set; }
-        public string Environment { get; internal set; }
+        public string Password { get; internal set; }
     }
 }

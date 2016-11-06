@@ -12,35 +12,56 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0"      Grid.ColumnSpan="2" HorizontalContentAlignment="Center" FontSize="22">Wybierz środowisko</Label>
-        <ComboBox
-            Grid.ColumnSpan="2"
-            x:Name="Environments"
-            Grid.Row="1" Grid.Column="0"
-            HorizontalContentAlignment="Center"
-            IsTextSearchEnabled="True"
-            IsTextSearchCaseSensitive="False"
-            FontSize="18"
-            Text="{Binding Path=SelectedEnvironment, Mode=TwoWay}"
-            Margin="5,5,5,5" />
 
-        <Button Grid.Row="2" Grid.Column="2" Width="Auto" MaxWidth="140" MaxHeight="40"
-                HorizontalContentAlignment="Center" IsDefault="true" FontSize="18"
-                cal:Message.Attach="[Event Click]=[Action Ok()];">
-            Zatwierdź
+
+        <Label  Grid.Row="0" Grid.Column="0"  HorizontalContentAlignment="Center"  FontSize="14">Login</Label>
+        <TextBox  Grid.Row="0" Grid.Column="1" Name="UserName" ></TextBox>
+
+
+
+
+        <Label  Grid.Row="1" Grid.Column="0"  HorizontalContentAlignment="Center"  FontSize="14">Hasło</Label>
+        <TextBox  Grid.Row="1" Grid.Column="1" Name="Password" ></TextBox>
+
+        <Grid Grid.Row="2" 
+            Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+            Grid.Column="1"
+            Width="Auto" 
+            Height="Auto"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            IsDefault="true" 
+            FontSize="18"
+                cal:Message.Attach="[Event Click]=[Action Login()];">
+                Zaloguj
+            </Button>
+
+        <Button
+            Grid.Column="0"
+            Width="Auto" 
+            Height="Auto"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            IsDefault="true" 
+            FontSize="18"
+                cal:Message.Attach="[Event Click]=[Action Register()];">
+            Zarejestruj
         </Button>
-        <Button Grid.Row="2" Grid.Column="0"  Width="Auto" 
-                HorizontalContentAlignment="Center" IsDefault="true" FontSize="18"
-                cal:Message.Attach="[Event Click]=[Action OtherConnectionString()];">
-            Inny connection string?
-        </Button>
+            </Grid>
+
 
     </Grid>
 </UserControl>

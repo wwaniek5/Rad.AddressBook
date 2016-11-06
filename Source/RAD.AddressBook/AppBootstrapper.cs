@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RAD.AddressBook.HelpClasses;
+using RAD.AddressBook.Security;
 using RAD.AddressBook.ViewModels;
 
 namespace RAD.AddressBook
@@ -21,10 +22,11 @@ namespace RAD.AddressBook
 
             _container.RegisterType<IWindowManager, WindowManager>(new ContainerControlledLifetimeManager());
             _container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
-
+            _container.RegisterType<ICryptographicAlgorithm, Bcrypt>();
             _container.RegisterType<IExceptionCommunicator, ExceptionCommunicator>();
             _container.RegisterInstance(new EventAggregator());
             _container.RegisterInstance(new EnvironmentSettings());
+            _container.RegisterInstance(new WindowManager());
             Initialize();
         }
 

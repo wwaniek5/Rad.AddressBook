@@ -19,7 +19,7 @@ namespace RAD.AddressBook.ViewModels
             ActivateItem(setupViewModelsFactory.CreateChooseEnvironmentViewModel());
         }
 
-        private string _windowTitle = "Events Simulation Tool";
+        private string _windowTitle = "Książka Adresowa";
         public string WindowTitle
         {
             get { return _windowTitle; }
@@ -32,7 +32,7 @@ namespace RAD.AddressBook.ViewModels
 
         public void Handle(GoToNextViewEvent nextViewEvent)
         {
-            WindowTitle = "Events Simulation Tool (" + nextViewEvent.WindowSubtitle + ")";
+            WindowTitle = "Książka Adresowa (" + nextViewEvent.WindowSubtitle + ")";
             ActivateItem(nextViewEvent.ViewModel);
         }
     }

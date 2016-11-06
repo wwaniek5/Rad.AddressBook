@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RAD.AddressBook.Views
 {
     /// <summary>
-    /// Interaction logic for CustomConnectionStringView.xaml
+    /// Interaction logic for RegisterView.xaml
     /// </summary>
-    public partial class CustomConnectionStringView : UserControl
+    public partial class RegisterView : UserControl
     {
-        public CustomConnectionStringView()
+        public RegisterView()
         {
             InitializeComponent();
         }

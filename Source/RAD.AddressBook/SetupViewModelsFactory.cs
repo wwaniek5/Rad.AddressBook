@@ -13,7 +13,7 @@ namespace RAD.AddressBook
             _container = container;
         }
 
-        public IScreen CreateChangeBayStatusViewModel()
+        public IScreen CreateAddressBookViewModel()
         {
             return _container.Resolve<AddressBookViewModel>();
         }
@@ -23,9 +23,9 @@ namespace RAD.AddressBook
             return _container.Resolve<LoginViewModel>();
         }
 
-        public IScreen CreateCustomStringViewModel()
+        public IScreen CreateRegisterViewModel()
         {
-            return _container.Resolve<CustomConnectionStringViewModel>();
+            return _container.Resolve<RegisterViewModel>();
         }
     }
 }
