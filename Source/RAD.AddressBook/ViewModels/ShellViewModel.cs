@@ -1,10 +1,5 @@
 ﻿using Caliburn.Micro;
 using RAD.AddressBook.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RAD.AddressBook.ViewModels
 {

@@ -4,33 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using RAD.AddressBook.Events;
 using RAD.AddressBook.HelpClasses;
 using RAD.AddressBook.Security;
 
 namespace RAD.AddressBook.ViewModels
 {
-    public class AddressBookViewModel : Screen
+    public class AddressBookViewModel : Screen, IHandle<UpdatePeople>
     {
         private readonly EventAggregator _eventAggregator;
-        private readonly EnvironmentSettings _settings;
-        private readonly AES _encryptor;
         private WindowManager _windowManager;
         private AddressBookManager _addressBookManager;
 
 
         public AddressBookViewModel(
-            EnvironmentSettings settings,
             EventAggregator eventAggregator,
-            AES encryptor,
             WindowManager windowManager,
             AddressBookManager addressBookManager
 
             )
             {
-                _settings = settings;
+
                 _eventAggregator = eventAggregator;
-                _encryptor = encryptor;
-               _encryptor.SetPasword(settings.Password);
+                 eventAggregator.Subscribe(this);
                 _windowManager = windowManager;
                 _addressBookManager = addressBookManager;
             }
@@ -46,18 +42,11 @@ namespace RAD.AddressBook.ViewModels
 
         private void UpdatePeople()
         {
-            using (var context = new DatabaseEntities())
-            {
-                IEnumerable<Person> people= _addressBookManager.GetAllPeople();
-
-               
                 People.Clear();
-                foreach (var person in people)
+                foreach (var person in _addressBookManager.GetAllPeople())
                 {
-                    People.Add(person                    );
+                    People.Add(person);
                 }
-
-            }
         }
 
 
@@ -106,8 +95,6 @@ namespace RAD.AddressBook.ViewModels
         }
 
         private string _email = "";
-       
-
         public string Email
         {
             get { return _email; }
@@ -132,8 +119,6 @@ namespace RAD.AddressBook.ViewModels
             UpdatePeople();
         }
 
-       
-
         public void Delete(Person person)
         {
             _addressBookManager.DeleteFromDatabase(person);
@@ -141,37 +126,15 @@ namespace RAD.AddressBook.ViewModels
             UpdatePeople();
         }
 
-
-
         public void Edit(Person person)
         {
-            var model = new EditViewModel(_windowManager,person);
+            var model = new EditViewModel(person, _addressBookManager, _eventAggregator);
             _windowManager.ShowWindow(model);
-            if (model.NewPerson != null)
-            {
-             //   DeleteFromDatabase(person);
-             //  AddToDatabase(model.NewPerson);
-                UpdatePeople();
-            }
-
-            //using (var context = new DatabaseEntities())
-            //{
-            //    var toBeDeleted = context
-            //        .AddressBook
-            //        .Single(a => a.Id == person.Id);
-
-            //    context
-            //        .AddressBook
-            //        .Remove(toBeDeleted);
-
-            //    context.SaveChanges();
-            //}
-
-            //UpdatePeople();
         }
 
-
+        public void Handle(UpdatePeople message)
+        {
+            UpdatePeople();
+        }
     }
-
-  
 }

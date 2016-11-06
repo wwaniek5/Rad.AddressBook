@@ -1,16 +1,17 @@
 ﻿using Caliburn.Micro;
+using RAD.AddressBook.Events;
+using RAD.AddressBook.HelpClasses;
 
 namespace RAD.AddressBook.ViewModels
 {
     internal class EditViewModel:Screen
     {
-        private WindowManager _windowManager;
         private Person _person;
-        public Person NewPerson { get; set; } = null;
 
-        public EditViewModel(WindowManager _windowManager,Person person)
+        public EditViewModel(Person person,AddressBookManager addressBookManager, EventAggregator eventAggregator)
         {
-            this._windowManager = _windowManager;
+            _eventAggregator = eventAggregator;
+            _addressBookManager = addressBookManager;
             _person = person;
             Name = person.Name;
             Surname = person.Surname;
@@ -64,6 +65,9 @@ namespace RAD.AddressBook.ViewModels
         }
 
         private string _email = "";
+        private AddressBookManager _addressBookManager;
+        private EventAggregator _eventAggregator;
+
         public string Email
         {
             get { return _email; }
@@ -76,15 +80,14 @@ namespace RAD.AddressBook.ViewModels
 
         public void Confirm()
         {
-            NewPerson = new Person
+            var newPerson = new Person
             {
-                Id = _person.Id,
-                Name = Name,
-                Surname = Surname,
-                Address = Address,
-                Phone = Phone,
-                Email = Email
+                Id = _person.Id, Name = Name, Surname = Surname, Address = Address, Phone = Phone, Email = Email
             };
+
+            _addressBookManager.DeleteFromDatabase(_person);
+            _addressBookManager.AddToDatabase(newPerson);
+            _eventAggregator.PublishOnCurrentThread(new UpdatePeople());
 
             TryClose();
         }
