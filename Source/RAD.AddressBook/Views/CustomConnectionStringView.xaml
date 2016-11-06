@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="RAD.AddressBook.Views.CustomConnectionStringView"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+             Height="Auto" Width="Auto">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+
+        <Label Margin="3,30,3,3" Grid.Row="0" Grid.Column="0"  HorizontalContentAlignment="Center"  FontSize="14">Connection String</Label>
+        <TextBox Margin="3,30,3,3" Grid.Row="0" Grid.Column="1" Name="ConnectionString" ></TextBox>
+
+
+        <Grid Grid.Row="1" 
+            Grid.Column="0"
+            Grid.ColumnSpan="2">
+            <Button
+Width="Auto" 
+            Height="Auto"
+                HorizontalAlignment="Center" 
+        VerticalAlignment="Center"
+            IsDefault="true" 
+            FontSize="18"
+                cal:Message.Attach="[Event Click]=[Action Ok()];">
+                Zatwierdź
+            </Button>
+        </Grid>
+
+    </Grid>
+</UserControl>
